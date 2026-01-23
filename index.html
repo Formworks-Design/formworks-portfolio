@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formworks | All Things 3D</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">Formworks</div>
+        <div class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>All Things 3D</h1>
+        <p>CAD, design consulting, 3D printing</p>
+    </header>
+
+    <section id="work" class="work">
+        <h2>Selected Work</h2>
+        <div class="gallery" id="gallery"></div>
+    </section>
+
+    <script src="projects.js"></script>
+    <script>
+        const gallery = document.getElementById('gallery');
+        projects.forEach((project, index) => {
+            const hasMultiple = project.images.length > 1;
+            const imagesHtml = project.images.map((img, i) => `
+                <img src="images/projects/${img}" alt="${project.title}" class="${i === 0 ? 'active' : ''}" data-index="${i}">
+            `).join('');
+
+            const dotsHtml = hasMultiple ? `
+                <div class="slide-dots">
+                    ${project.images.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join('')}
+                </div>
+            ` : '';
+
+            const arrowsHtml = hasMultiple ? `
+                <button class="slide-arrow prev" aria-label="Previous">&#10094;</button>
+                <button class="slide-arrow next" aria-label="Next">&#10095;</button>
+            ` : '';
+
+            const aspectStyle = project.aspectRatio ? `style="aspect-ratio: ${project.aspectRatio}"` : '';
+            gallery.innerHTML += `
+                <div class="project" data-project="${index}" ${aspectStyle}>
+                    <div class="slide-container">
+                        ${imagesHtml}
+                        ${arrowsHtml}
+                        ${dotsHtml}
+                    </div>
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.category}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Slideshow functionality
+        document.querySelectorAll('.project').forEach(project => {
+            const images = project.querySelectorAll('.slide-container img');
+            const dots = project.querySelectorAll('.dot');
+            if (images.length <= 1) return;
+
+            const showSlide = (index) => {
+                images.forEach(img => img.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                images[index].classList.add('active');
+                dots[index].classList.add('active');
+            };
+
+            project.querySelector('.prev')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const current = project.querySelector('.slide-container img.active');
+                const index = parseInt(current.dataset.index);
+                showSlide(index === 0 ? images.length - 1 : index - 1);
+            });
+
+            project.querySelector('.next')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const current = project.querySelector('.slide-container img.active');
+                const index = parseInt(current.dataset.index);
+                showSlide(index === images.length - 1 ? 0 : index + 1);
+            });
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showSlide(parseInt(dot.dataset.index));
+                });
+            });
+        });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.project').forEach(project => {
+            observer.observe(project);
+        });
+    </script>
+
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>About</h2>
+            <p>
+                10 years of CAD design, grounded in 12 years of automotive repair
+                and 5 years of hands-on fabrication.
+            </p>
+            <p>
+                Expertise across the full process — tooling & fixturing design, automation integration,
+                CNC, manual machining, plasma, laser, sheet metal, and 3D printing.
+                Bridging concept to production.
+            </p>
+            <p>
+                Tools: Fusion 360 · CNC · FDM/Resin Printing
+            </p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Get in Touch</h2>
+        <p>Available for consulting and contract work</p>
+        <a href="mailto:eric@formworks.ltd" class="email-link">eric@formworks.ltd</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Formworks. All rights reserved.</p>
+    </footer>
+</body>
+</html>
