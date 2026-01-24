@@ -301,6 +301,66 @@ nav {
     margin-bottom: 2rem;
 }
 
+.contact-form {
+    max-width: 500px;
+    margin: 2rem auto;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bg-light);
+    border: 1px solid #333;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--text-muted);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: opacity 0.3s;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+}
+
+.email-alt {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+.email-alt a {
+    color: var(--text);
+    text-decoration: underline;
+}
+
 .email-link {
     font-size: 2rem;
     color: var(--text);
