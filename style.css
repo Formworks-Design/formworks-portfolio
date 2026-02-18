@@ -283,14 +283,12 @@ nav {
 .about a {
     color: var(--text-muted);
     text-decoration: none;
-    border-bottom: 1px solid var(--text-muted);
-    padding-bottom: 0.1rem;
-    transition: color 0.3s, border-color 0.3s;
+    transition: color 0.3s;
+    display: inline-block;
 }
 
 .about a:hover {
     color: var(--text);
-    border-color: var(--text);
 }
 
 /* Contact Section */
